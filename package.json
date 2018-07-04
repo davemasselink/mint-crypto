@@ -1,0 +1,15 @@
+{
+  "name": "mint-crypto",
+  "version": "0.0.1",
+  "description": "Utility to lookup crypto wallet values and update corresponding accounts on mint.com",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dave Masselink",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "pepper-mint": "^1.7.0",
+    "ssl-root-cas": "^1.2.4"
+  }
+}
