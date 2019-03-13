@@ -9,7 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.16.2",
-    "pepper-mint": "^1.7.0",
+    "pepper-mint": "davemasselink/pepper-mint",
     "ssl-root-cas": "^1.2.4"
   }
 }
