@@ -32,12 +32,12 @@ let ethAddrs = [];
 coins.push(new Coin('ETH', 0, 'https://api.coinmarketcap.com/v1/ticker/ethereum/',
 ethAddrs, 'https://api.etherscan.io/api?module=account&action=balance&address=',
 1e18, 'result'));
-  
+
 // zec
 let zecAddrs = [];
 coins.push(new Coin('ZEC', 0, 'https://api.coinmarketcap.com/v1/ticker/zcash/',
 zecAddrs, 'https://api.zcha.in/v2/mainnet/accounts/', 1, 'balance'));
-  
+
 //bch
 let bchAddrs = [];
 coins.push(new Coin('BCH', 0, 'https://api.coinmarketcap.com/v1/ticker/bitcoin-cash/',
@@ -102,35 +102,29 @@ const getCoinUsdBalance = async (coin) => {
 //Time to update Mint
 let user = "email@server.com";
 let pass = "";
-let ius_session = "";
-let thx_guid ="";
 
-pepperMint(user, pass, ius_session, thx_guid)
+pepperMint(user, pass)
 .then((mint) => {
   console.log("Logged into Mint at:" + new Date().toISOString());
-  
-  //Leave the following 2 lines in code so can easily determine cookie values
-  //if they change
-  //console.log("ius_session: ", mint.sessionCookies.ius_session);
-  //console.log("thx_guid: ", mint.sessionCookies.thx_guid);
-  
-  //Leave the following block in code so can easily print out all accounts
-  //when necessary
-  //mint.getAccounts().then((accounts) => {
+
+  /*
+  //UNCOMMENT BLOCK TO LIST ACCOUNTS
+  mint.getAccounts().then((accounts) => {
     //accounts is the array of account objects
-  //  accounts.forEach((account) => {
+    accounts.forEach((account) => {
       // EG: "Bank of America", "Savings", 1234567
-  //    console.log(account.fiName, account.accountName, account.accountId);
-  //  });
-  //});
-  
+      console.log(account.fiName, account.accountName, account.accountId);
+    });
+  });
+  */
+
   let totalHoldings = 0;
   let costBasis2017 = 0;
   let costBasis2018 = 0;
   let totalCostBasis = costBasis2017 + costBasis2018;
   const coinCnt = coins.length;
   let balanceCnt = 0;
-  
+
   coins.forEach((coin) => {
     getCoinUsdBalance(coin).then((coinUsdBalance) => {
       balanceCnt += 1;
