@@ -100,65 +100,65 @@ let ius_session = "";
 let thx_guid ="";
 
 pepperMint(user, pass, ius_session, thx_guid)
-  .then((mint) => {
-    console.log(`Logged into Mint at: ${new Date().toISOString()}`);
+.then((mint) => {
+  console.log(`Logged into Mint at: ${new Date().toISOString()}`);
 
-    //Leave the following 2 lines in code so can easily determine cookie values
-    //if they change
-    //console.log("ius_session: ", mint.sessionCookies.ius_session);
-    //console.log("thx_guid: ", mint.sessionCookies.thx_guid);
+  //Leave the following 2 lines in code so can easily determine cookie values
+  //if they change
+  //console.log("ius_session: ", mint.sessionCookies.ius_session);
+  //console.log("thx_guid: ", mint.sessionCookies.thx_guid);
 
-    //Leave the following block in code so can easily print out all accounts
-    //when necessary
-    // mint.getAccounts().then((accounts) => {
-    //   //accounts is the array of account objects
-    //   accounts.forEach((account) => {
-    //     //EG: "Bank of America", "Savings", 1234567
-    //     console.log(account.fiName, account.accountName, account.accountId);
-    //   });
-    // });
+  //Leave the following block in code so can easily print out all accounts
+  //when necessary
+  // mint.getAccounts().then((accounts) => {
+  //   //accounts is the array of account objects
+  //   accounts.forEach((account) => {
+  //     //EG: "Bank of America", "Savings", 1234567
+  //     console.log(account.fiName, account.accountName, account.accountId);
+  //   });
+  // });
 
-    let totalHoldings = 0;
-    let costBasis2017 = 0;
-    let costBasis2018 = 0;
-    let totalCostBasis = costBasis2017 + costBasis2018;
-    const coinCnt = coins.length;
-    let balanceCnt = 0;
+  let totalHoldings = 0;
+  let costBasis2017 = 0;
+  let costBasis2018 = 0;
+  let totalCostBasis = costBasis2017 + costBasis2018;
+  const coinCnt = coins.length;
+  let balanceCnt = 0;
 
-    coins.forEach((coin) => {
-      getCoinUsdBalance(coin).then((coinUsdBalance) => {
-        balanceCnt += 1;
-        totalHoldings += coinUsdBalance;
+  coins.forEach((coin) => {
+    getCoinUsdBalance(coin).then((coinUsdBalance) => {
+      balanceCnt += 1;
+      totalHoldings += coinUsdBalance;
 
-        //update Mint only if user has any coin holdings
-        if(coin.addrs.length > 0){
-          console.log('$$$$$ Updating Mint balance for ' + coin.name + ' to: $', coinUsdBalance.toFixed(2));
-          mint.updateAccount({
-            accountId: coin.mintAcctId,
-            accountValue: coinUsdBalance
-          });
+      //update Mint only if user has any coin holdings
+      if(coin.addrs.length > 0){
+        console.log('$$$$$ Updating Mint balance for ' + coin.name + ' to: $', coinUsdBalance.toFixed(2));
+        mint.updateAccount({
+          accountId: coin.mintAcctId,
+          accountValue: coinUsdBalance
+        });
+      }
+
+      if (balanceCnt >= coinCnt) {
+        console.log('==============================================');
+        console.log('totalHoldings: $' + totalHoldings.toFixed(2));
+        console.log('costBasis2017: $' + costBasis2017.toFixed(2));
+        console.log('costBasis2018: $' + costBasis2018.toFixed(2));
+        console.log('totalCostBasis: $' + totalCostBasis.toFixed(2));
+        console.log('gains: $' + (totalHoldings-totalCostBasis).toFixed(2));
+
+        let returns = 0
+        if(totalCostBasis > 0){
+          returns = (totalHoldings/totalCostBasis*100).toFixed(2)
         }
+        console.log('return: ' + returns + '%');
 
-        if (balanceCnt >= coinCnt) {
-          console.log('==============================================');
-          console.log('totalHoldings: $' + totalHoldings.toFixed(2));
-          console.log('costBasis2017: $' + costBasis2017.toFixed(2));
-          console.log('costBasis2018: $' + costBasis2018.toFixed(2));
-          console.log('totalCostBasis: $' + totalCostBasis.toFixed(2));
-          console.log('gains: $' + (totalHoldings-totalCostBasis).toFixed(2));
-
-          let returns = 0
-          if(totalCostBasis > 0){
-            returns = (totalHoldings/totalCostBasis*100).toFixed(2)
-          }
-          console.log('return: ' + returns + '%');
-
-          console.log('estCapGains(@15%): $' + ((totalHoldings - totalCostBasis)*0.15).toFixed(2));
-        }
-      });
+        console.log('estCapGains(@15%): $' + ((totalHoldings - totalCostBasis)*0.15).toFixed(2));
+      }
     });
-    return;
-  })
-  .catch(function(err) {
-    console.error("Something has gone wrong: ", err);
   });
+  return;
+})
+.catch(function(err) {
+  console.error("Something has gone wrong: ", err);
+});
