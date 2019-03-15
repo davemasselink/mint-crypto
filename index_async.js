@@ -96,27 +96,21 @@ const getCoinUsdBalance = async (coin) => {
 //Time to update Mint
 let user = "email@server.com";
 let pass = "";
-let ius_session = "";
-let thx_guid ="";
 
-pepperMint(user, pass, ius_session, thx_guid)
+pepperMint(user, pass)
 .then((mint) => {
-  console.log(`Logged into Mint at: ${new Date().toISOString()}`);
+  console.log("Logged into Mint at:" + new Date().toISOString());
 
-  //Leave the following 2 lines in code so can easily determine cookie values
-  //if they change
-  //console.log("ius_session: ", mint.sessionCookies.ius_session);
-  //console.log("thx_guid: ", mint.sessionCookies.thx_guid);
-
-  //Leave the following block in code so can easily print out all accounts
-  //when necessary
-  // mint.getAccounts().then((accounts) => {
-  //   //accounts is the array of account objects
-  //   accounts.forEach((account) => {
-  //     //EG: "Bank of America", "Savings", 1234567
-  //     console.log(account.fiName, account.accountName, account.accountId);
-  //   });
-  // });
+  /*
+  //UNCOMMENT BLOCK TO LIST ACCOUNTS
+  mint.getAccounts().then((accounts) => {
+    //accounts is the array of account objects
+    accounts.forEach((account) => {
+      // EG: "Bank of America", "Savings", 1234567
+      console.log(account.fiName, account.accountName, account.accountId);
+    });
+  });
+  */
 
   let totalHoldings = 0;
   let costBasis2017 = 0;
